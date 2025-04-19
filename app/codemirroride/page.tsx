@@ -173,44 +173,44 @@ export default function CodeMirrorIde() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-[#0d1117] text-[#cccccc]">
+    <div className="h-[calc(100vh-12rem)] w-full max-w-[1200px] mx-auto rounded-lg overflow-hidden border border-[#30363d] bg-[#141414]">
       {/* Top Bar */}
-      <div className="h-12 bg-[#0d1117] border-b border-[#30363d] flex items-center px-4">
-        <div className="flex-1 flex items-center space-x-4">
-          <div className="flex space-x-2">
-            <span className="text-[13px] px-3 py-1 rounded hover:bg-[#161b22] cursor-pointer">Code</span>
-            <span className="text-[13px] px-3 py-1 rounded text-[#8b949e] hover:bg-[#161b22] cursor-pointer">Preview</span>
-          </div>
+      <div className="h-10 bg-[#141414] border-b border-[#30363d] flex items-center px-4">
+        <div className="flex space-x-2">
+          <button className="text-[13px] px-3 py-1 rounded text-white hover:bg-[#1e1e1e]">Code</button>
+          <button className="text-[13px] px-3 py-1 rounded text-[#8b8b8b] hover:bg-[#1e1e1e]">Preview</button>
         </div>
-        <Settings className="w-5 h-5 text-[#8b949e]" />
       </div>
 
-      <div className="flex-1 flex">
-        {/* Sidebar */}
-        <div className="w-64 bg-[#0d1117] border-r border-[#30363d] flex flex-col">
-          <div className="p-2 text-[11px] font-medium text-[#8b949e] uppercase tracking-wide">Files</div>
-          <FileExplorer files={sampleFiles} onFileSelect={handleFileSelect} />
+      <div className="flex h-[calc(100%-2.5rem)]">
+        {/* Sidebar - Fixed width */}
+        <div className="w-[240px] min-w-[240px] max-w-[240px] bg-[#141414] border-r border-[#30363d] flex flex-col">
+          <div className="p-2 text-[11px] font-medium text-[#8b8b8b] uppercase tracking-wide">Files</div>
+          <div className="overflow-y-auto flex-1">
+            <FileExplorer files={sampleFiles} onFileSelect={handleFileSelect} />
+          </div>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col bg-[#141414] min-w-0">
           {/* Tabs */}
-          <div className="bg-[#0d1117] flex items-center border-b border-[#30363d]">
+          <div className="bg-[#141414] flex items-center border-b border-[#30363d] h-9 min-h-[2.25rem] overflow-x-auto">
             {openFiles.filter(Boolean).map(file => (
               <div
                 key={file.name}
-                className={`flex items-center px-4 py-2 border-r border-[#30363d] cursor-pointer ${
-                  selectedTab === file.name ? 'bg-[#0d1117]' : 'bg-[#161b22]'
+                className={`flex items-center h-full px-3 border-r border-[#30363d] cursor-pointer shrink-0 ${
+                  selectedTab === file.name ? 'bg-[#141414] text-white' : 'bg-[#1e1e1e] text-[#8b8b8b]'
                 }`}
                 onClick={() => {
                   setSelectedTab(file.name);
                   setActiveFile(file);
                 }}
               >
-                <span className="text-[13px]">{file.name}</span>
+                <File className="w-4 h-4 mr-2 shrink-0" />
+                <span className="text-[13px] whitespace-nowrap">{file.name}</span>
                 <X
-                  className="w-4 h-4 ml-2 text-[#8b949e] hover:text-[#cccccc]"
-                  onClick={(e:any) => {
+                  className="w-4 h-4 ml-2 hover:text-white shrink-0"
+                  onClick={(e) => {
                     e.stopPropagation();
                     handleCloseTab(file.name);
                   }}
@@ -219,29 +219,21 @@ export default function CodeMirrorIde() {
             ))}
           </div>
 
-          {/* Editor Area */}
-          <div className="flex-1 bg-[#0d1117]">
+          {/* Editor Area with horizontal scroll */}
+          <div className="flex-1 overflow-hidden bg-[#141414]">
             {activeFile && (
-              <CodeMirror
-                value={activeFile.content || ''}
-                height="100%"
-                theme={oneDark}
-                extensions={[javascript({ jsx: true, typescript: true })]}
-                onChange={handleCodeChange}
-                className="h-full"
-              />
+              <div className="h-full overflow-auto bg-[#141414]">
+                <CodeMirror
+                  value={activeFile.content || ''}
+                  height="100%"
+                  width="100%"
+                  theme={oneDark}
+                  extensions={[javascript({ jsx: true, typescript: true })]}
+                  onChange={handleCodeChange}
+                  className="min-w-full h-full [&_.cm-editor]:bg-[#141414] [&_.cm-scroller]:bg-[#141414]"
+                />
+              </div>
             )}
-          </div>
-
-          {/* Bottom Panel */}
-          <div className="h-32 bg-[#0d1117] border-t border-[#30363d]">
-            <div className="flex items-center px-4 py-2 border-b border-[#30363d]">
-              <Terminal className="w-4 h-4 mr-2 text-[#8b949e]" />
-              <span className="text-[13px]">Terminal</span>
-            </div>
-            <div className="p-2 font-mono text-[13px] text-[#cccccc]">
-              <span className="text-[#4d8ff9]">$</span> npm run dev
-            </div>
           </div>
         </div>
       </div>

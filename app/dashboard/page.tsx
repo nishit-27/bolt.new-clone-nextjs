@@ -65,8 +65,9 @@ async function startDevServer(webContainer:WebContainer) {
     }
 
     return (
-        <div className="flex w-full h-screen">
+        <div className="flex fixed w-screen h-screen">
             <div className="w-[30%] ">
+                <div className="">hello</div>
                 <FollowUpSection></FollowUpSection>
                 chat
             </div>
