@@ -13,6 +13,7 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codesandbox/sandpack-react": "^2.20.0",
     "@google/genai": "^0.8.0",
+    "@uiw/codemirror-theme-vscode": "^4.23.10",
     "@uiw/react-codemirror": "^4.23.10",
     "@webcontainer/api": "^1.5.3",
     "@xterm/xterm": "^5.5.0",
