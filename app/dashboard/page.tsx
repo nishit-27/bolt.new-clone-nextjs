@@ -7,7 +7,7 @@ import {
     SandpackFileExplorer
 } from "@codesandbox/sandpack-react";
 import { Code, Height } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import CodeMirrorIde, { FileItem } from "../codemirroride/page";
 import PreviewCode from "@/components/PreviewCode";
 import { getWebContainer } from "@/utils/webcontainer";
@@ -25,6 +25,7 @@ export default function Dashboard() {
     const [url, setUrl] = useState("")
     const [isStarted, setIsStarted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const serverReadyListenerRegistered = useRef(false);
 
     function changeStateToCode() {
        setstate("code")
@@ -81,12 +82,16 @@ export default function Dashboard() {
                 throw new Error("Installation failed");
             }
 
-            await webContainer.spawn('npm', ['run', 'dev']);
+            // Only register the listener if it hasn't been registered yet
+            if (!serverReadyListenerRegistered.current) {
+                webContainer.on("server-ready", (port, url) => {
+                    setUrl(url);
+                    console.log("Dev server ready at:", url);
+                });
+                serverReadyListenerRegistered.current = true;
+            }
 
-            webContainer.on("server-ready", (port, url) => {
-                setUrl(url);
-                console.log("Dev server ready at:", url);
-            });
+            await webContainer.spawn('npm', ['run', 'dev']);
 
             setIsStarted(true);
         } catch (error) {
@@ -105,8 +110,6 @@ export default function Dashboard() {
             
             console.log('Mounting files:', mergedFilesForContainer);
             
-            // const webContainer = await getWebContainer();
-            // setWebContainer(webContainer);
             if (!webContainer) {
                 throw new Error("WebContainer not initialized");
             }
@@ -117,12 +120,7 @@ export default function Dashboard() {
                 throw new Error("Installation failed");
             }
 
-            await webContainer.spawn('npm', ['run', 'dev']);
-
-            webContainer.on("server-ready", (port, url) => {
-                setUrl(url);
-                console.log("Dev server ready at:", url);
-            });
+            // await webContainer.spawn('npm', ['run', 'dev']);
 
             setIsStarted(true);
         } catch (error) {
