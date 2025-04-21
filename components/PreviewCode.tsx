@@ -7,8 +7,9 @@ import { WebContainer } from "@webcontainer/api"
 
 export default function PreviewCode({ url }: {url:string} ) {
 
-    return <div className="h-screen">
-        {!url ? <div>"you are seeing preview of code"</div> : <iframe className="h-[80%] w-[97%]" src={url}></iframe> }
+    return     <div className="h-[calc(100vh-12rem)] w-full max-w-[1200px] mx-auto rounded-lg overflow-hidden border border-[#30363d] bg-[#141414]">
+
+        {!url ? <div>"you are seeing preview of code"</div> : <iframe className="h-full w-full" src={url}></iframe> }
 
     </div>
 }
