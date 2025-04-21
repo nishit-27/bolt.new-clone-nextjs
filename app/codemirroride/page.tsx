@@ -269,6 +269,7 @@ export default function CodeMirrorIde() {
   const {templeteName} = useContextProvider()
   const {setMergedFiles,mergedFiles} = useMergedContextProvider()
   const [selectedTab, setSelectedTab] = useState('package.json');
+  const [hasInitialized, setHasInitialized] = useState(false);
   const filesOnly: FileItem[] = [
     {
       name: "README.md",
@@ -292,27 +293,29 @@ export default function CodeMirrorIde() {
     }
   ];
   const [sampleFiles, setSampleFiles] = useState<FileItem[]>(filesOnly)
-  useEffect(() => {
-    const initialFiles = parseBoltArtifactToFileItems(templeteName === "React" ? reactBasePrompt : nextBasePrompt)
-    const mergedFiles = mergeFiles(initialFiles,finalFiles)
-    setMergedFiles(mergedFiles)
-    
-    console.log("use effect called")
-  },[])
-  useEffect(() => {
-    setSampleFiles(mergedFiles)
-    console.log("merged file updated",sampleFiles)
-  },[mergedFiles])
-
-  // useEffect(() => {
-  //   const mergedFollowUpFiles = mergeFiles(mergedFiles,finalFiles)
-  //   setMergedFiles(mergedFollowUpFiles)
-  //   setSampleFiles(mergedFollowUpFiles)
-  // },[finalFiles])
   
+  // First useEffect - runs only once for initialization
+  useEffect(() => {
+    if (!hasInitialized && templeteName && finalFiles && finalFiles.length > 0) {
+      const initialFiles = parseBoltArtifactToFileItems(templeteName === "React" ? reactBasePrompt : nextBasePrompt)
+      const mergedFiles = mergeFiles(initialFiles, finalFiles)
+      setMergedFiles(mergedFiles)
+      setSampleFiles(mergedFiles)
+      setHasInitialized(true)
+      console.log("first useEffect called")
+    }
+  }, []) // Empty dependency array ensures it runs only once
+
+  // Second useEffect - runs whenever mergedFiles changes
+  useEffect(() => {
+    if (mergedFiles && mergedFiles.length > 0) {
+      setSampleFiles(mergedFiles)
+      console.log("second useEffect called")
+    }
+  }, [mergedFiles]) // This will run every time mergedFiles changes
 
   const [openFiles, setOpenFiles] = useState<FileItem[]>(() => {
-    const initialFile = findFileByName(sampleFiles, 'package.json');
+    const initialFile = findFileByName(filesOnly, 'package.json');
     return initialFile ? [initialFile] : [];
   });
   const [activeFile, setActiveFile] = useState<FileItem>(openFiles[0]);

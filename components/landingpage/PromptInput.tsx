@@ -36,7 +36,7 @@ export default function PromptInput() {
       console.log("this is what i have parsed for you", parseData)
       setFinalFiles(parseData)
       setTempleteName(template)
-      if(templeteName=="React"){
+      if(template=="React"){
         setLlmMessage([...llmMessage, {role: "user", text: reactBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
       } else {
         setLlmMessage([...llmMessage, {role: "user", text: nextBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])

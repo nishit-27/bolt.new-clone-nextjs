@@ -8,6 +8,13 @@ export async function POST(req:NextRequest){
     const response = await geminiTemplateResponse(userPrompt,systemPrompt);
     console.log(response)
     const basePrompt = response?.trim() == "React" ? reactBasePrompt : nextBasePrompt;
+    if(basePrompt===reactBasePrompt) {
+        console.log("used react base prompt")
+    }
+    if(basePrompt===nextBasePrompt){
+        console.log("used next base prompt")
+    }
+    
     const chatResponse = await geminiChatResponse(userPrompt,basePrompt);
     console.log("we got response");
     
