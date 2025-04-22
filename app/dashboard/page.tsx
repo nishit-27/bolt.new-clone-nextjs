@@ -26,7 +26,7 @@ export default function Dashboard() {
     const [isStarted, setIsStarted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const serverReadyListenerRegistered = useRef(false);
-
+ 
     function changeStateToCode() {
        setstate("code")
     }
@@ -82,7 +82,7 @@ export default function Dashboard() {
                 throw new Error("Installation failed");
             }
 
-            // Only register the listener if it hasn't been registered yet
+            
             if (!serverReadyListenerRegistered.current) {
                 webContainer.on("server-ready", (port, url) => {
                     setUrl(url);
