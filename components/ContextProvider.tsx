@@ -14,6 +14,8 @@ type contextType = {
     setTempleteName: (value: string) => void
     llmMessage: MessageType[],
     setLlmMessage: (value: MessageType[]) => void
+    chatMessage: MessageType[],
+    setChatMessage: (value: MessageType[]) => void
 }
 
 const GlobelContext = createContext<contextType| undefined>(undefined);
@@ -21,9 +23,9 @@ export default function ContextProvider({children}:{children: React.ReactNode}) 
     const [finalFiles,setFinalFiles] = useState<FileItem[]>([]);
     const [templeteName,setTempleteName] = useState<string>("")
     const [llmMessage,setLlmMessage] = useState<MessageType[]>([{role:"user", text: FOLLOWUP_BASE},{role:"user", text: BASE_PROMPT}])
-
+    const [chatMessage, setChatMessage] = useState<MessageType[]>([])
 return ( 
-<GlobelContext.Provider value={{finalFiles,setFinalFiles,templeteName,setTempleteName,llmMessage, setLlmMessage}}>
+<GlobelContext.Provider value={{finalFiles,setFinalFiles,templeteName,setTempleteName,llmMessage, setLlmMessage,chatMessage,setChatMessage}}>
     {children}
 </GlobelContext.Provider>)
        

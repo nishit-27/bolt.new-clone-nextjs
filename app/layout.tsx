@@ -5,6 +5,7 @@ import ContextProvider from "@/components/ContextProvider";
 import MergedContextProvider from "@/components/mergedFileContextProvider";
 
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
 <ContextProvider>
+
   <MergedContextProvider>{children}</MergedContextProvider>
 
         </ContextProvider>

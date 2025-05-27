@@ -3,7 +3,7 @@
 import { ChevronUp, Image, CircleDollarSign, Send, ArrowUp, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { FormEvent, use, useState } from 'react';
-import { parseBoltArtifactToFileItems } from '@/utils/parser';
+import { extractSummaryFromLLMResponse, parseBoltArtifactToFileItems } from '@/utils/parser';
 import { useRouter } from 'next/navigation';
 import { useContextProvider } from '../ContextProvider';
 import { nextBasePrompt, reactBasePrompt } from '@/utils/prompts';
@@ -12,7 +12,7 @@ export default function PromptInput() {
   const [isFocused, setIsFocused] = useState(false);
   const [userPrompt, setUserPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const {setTempleteName,templeteName,llmMessage,setLlmMessage,setFinalFiles} = useContextProvider()
+  const {setTempleteName,templeteName,llmMessage,setLlmMessage,setFinalFiles,chatMessage,setChatMessage} = useContextProvider()
 
   const router = useRouter()
 
@@ -33,13 +33,16 @@ export default function PromptInput() {
       const template = llmResponse.response.trim()
 
       const parseData = parseBoltArtifactToFileItems(chatResponse)
+      const chatMessageLlm = extractSummaryFromLLMResponse(chatResponse)
+      console.log("chat message from llm:" , chatMessageLlm)
       console.log("this is what i have parsed for you", parseData)
       setFinalFiles(parseData)
       setTempleteName(template)
+      setChatMessage([...chatMessage, {role: "user" ,text: userPrompt}, {role: "model" ,text: chatMessageLlm}])
       if(template=="React"){
-        setLlmMessage([...llmMessage, {role: "user", text: reactBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
+        setLlmMessage([...llmMessage, {role: "user", text: "i have attached the sample code of a template that we are using. this is the starting point. make sure you make changes accordingly. This is the code:" + reactBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
       } else {
-        setLlmMessage([...llmMessage, {role: "user", text: nextBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
+        setLlmMessage([...llmMessage, {role: "user", text: "i have attached the sample code of a template that we are using. this is the starting point. make sure you make changes accordingly. This is the code:" + nextBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
       }
       
       router.push("/dashboard")

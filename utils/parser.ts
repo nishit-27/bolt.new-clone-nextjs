@@ -52,3 +52,8 @@ export function parseBoltArtifactToFileItems(input: string): FileItem[] {
 
   return Array.from(root.values());
 }
+
+export function extractSummaryFromLLMResponse(input: string): string {
+  // Remove the entire code block starting with ```html and ending with ```
+  return input.replace(/```html[\s\S]*?```/g, '').trim();
+}
