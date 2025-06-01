@@ -6,11 +6,12 @@ import { ArrowUpRight, User2 } from 'lucide-react';
 export default function ProjectGrid() {
   // In the real site, this would be fetched from an API
   const projects = [
+   
     {
       id: 1,
       title: "Fullstack Blog",
       description: "A complete blogging platform with authentication and comments",
-      image: "https://ext.same-assets.com/23804050/2669673301.jpeg",
+      image: "/images/1.png",
       author: "Sarah Johnson",
       date: "2 days ago"
     },
@@ -18,7 +19,7 @@ export default function ProjectGrid() {
       id: 2,
       title: "Dashboard UI",
       description: "Admin dashboard with data visualization and user management",
-      image: "https://ext.same-assets.com/23804050/2067915261.jpeg",
+      image: "/images/1.png",
       author: "Alex Chen",
       date: "5 days ago"
     },
@@ -26,7 +27,7 @@ export default function ProjectGrid() {
       id: 3,
       title: "E-commerce Store",
       description: "Complete online store with product listings and shopping cart",
-      image: "https://ext.same-assets.com/23804050/1610625980.jpeg",
+      image: "/images/1.png",
       author: "Michael Kim",
       date: "1 week ago"
     }
