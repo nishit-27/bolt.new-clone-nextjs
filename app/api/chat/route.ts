@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     console.log("hello after followup is compelete")
 
    return NextResponse.json({
-        message: "request successfull", data, llmResponse
+        message: "request successfull", llmResponse
     })
     
 }

@@ -132,10 +132,8 @@ export default function Dashboard() {
     }
     return (
         <div className="flex fixed w-screen h-screen">
-            <div className="w-[30%] flex flex-col h-full py-8">
-                <div className="flex-1 flex flex-col justify-center">
-                    <FollowUpSection />
-                </div>
+            <div className="w-[30%] h-full flex flex-col p-4">
+                <FollowUpSection />
             </div>
             
             <div className="w-[70%]">

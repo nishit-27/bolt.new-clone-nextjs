@@ -21,8 +21,7 @@ export default function FollowUpSection() {
         })
         const LLM = await response.json()
         const llmResponse = LLM.llmResponse
-        const messageTillNow = LLM.data
-        console.log(messageTillNow)
+        console.log("LLM RESPONSE::", llmResponse)
 
         const parseData = parseBoltArtifactToFileItems(llmResponse)
         const chatMessageLlm = extractSummaryFromLLMResponse(llmResponse)
@@ -38,7 +37,7 @@ export default function FollowUpSection() {
     }
     return(
         <div className="flex flex-col h-full w-full bg-[#141414] border border-[#30363d] rounded-xl shadow-lg p-4">
-            <div className="flex-1 overflow-y-auto mb-4 pr-2 custom-scrollbar">
+            <div className="flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar">
                 {chatMessage.map((msg, index) => (
                     <div key={index} className={`my-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
                         <div className={`inline-block px-3 py-2 rounded-lg border ${msg.role === 'user' ? 'bg-[#2c2c2c] border-[#363637] text-white' : 'bg-[#181A20] border-[#23262F] text-[#848484]'}`}
@@ -48,7 +47,7 @@ export default function FollowUpSection() {
                     </div>
                 ))}
             </div>
-            <form onSubmit={submitFunction} className="flex items-center bg-[#2c2c2c] border border-[#363637] rounded-full px-2 py-1">
+            <form onSubmit={submitFunction} className="w-full flex items-center bg-[#2c2c2c] border border-[#363637] rounded-b-xl px-2 py-2 mt-2">
                 <input
                     type="text"
                     value={userPrompt}

@@ -54,6 +54,21 @@ export function parseBoltArtifactToFileItems(input: string): FileItem[] {
 }
 
 export function extractSummaryFromLLMResponse(input: string): string {
-  // Remove the entire code block starting with ```html and ending with ```
-  return input.replace(/```html[\s\S]*?```/g, '').trim();
+  // Remove all <boltArtifact>...</boltArtifact>, <boltAction>...</boltAction>, and code blocks
+  let cleaned = input
+    .replace(/<boltArtifact[\s\S]*?<\/boltArtifact>/g, '')
+    .replace(/<boltAction[\s\S]*?<\/boltAction>/g, '')
+    .replace(/```[\s\S]*?```/g, '')
+    .trim();
+
+  if (cleaned) return cleaned;
+
+  // If not, try to find any text outside artifacts/code blocks
+  const parts = input.split(/<boltArtifact[\s\S]*?<\/boltArtifact>|<boltAction[\s\S]*?<\/boltAction>|```[\s\S]*?```/g);
+  for (const part of parts) {
+    const trimmed = part.trim();
+    if (trimmed) return trimmed;
+  }
+
+  return '';
 }

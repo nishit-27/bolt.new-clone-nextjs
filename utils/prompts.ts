@@ -164,8 +164,9 @@ ULTRA IMPORTANT: Do NOT be verbose and DO NOT explain anything unless the user i
 
 ULTRA IMPORTANT: Think first and reply with the artifact that contains all necessary steps to set up the project, files, shell commands to run. It is SUPER IMPORTANT to respond with this first.
 
-ULTRA IMPORTANT: In reply with artifact, also return what you have done(i will show this in chat interface). make sure to make it short and to the point.
+ULTRA IMPORTANT: In reply with artifact, also return what you have done(i will show this in chat interface). make sure to make it short and to the point. 
 
+ULTRA IMPORTANT: Always return in response in same format as examples below. As i am parshing your response to get the artifact and what you have done. it's getting hard when you are using different format.
 Here are some examples of correct usage of artifacts:
 
 <examples>
