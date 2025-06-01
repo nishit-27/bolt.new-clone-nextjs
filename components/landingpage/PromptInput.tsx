@@ -61,19 +61,20 @@ export default function PromptInput() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
-        <input
-          type="text"
+        <textarea
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.target.value)}
           placeholder="create a"
           disabled={isLoading}
-          className={`w-full py-3 sm:py-4 px-4 sm:px-5 rounded-full bg-[#2c2c2c] border transition-colors duration-200 ${
+          rows={1}
+          className={`w-full py-3 sm:py-4 px-4 sm:px-5 rounded-xl bg-[#2c2c2c] border transition-colors duration-200 ${
             isFocused ? 'border-[#848484]' : 'border-[#363637]'
-          } text-white text-sm sm:text-base placeholder:text-[#646464] focus:outline-none focus:border-[#848484] focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed`}
+          } text-white text-sm sm:text-base placeholder:text-[#646464] focus:outline-none focus:border-[#848484] focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed resize-none min-h-[48px] max-h-[200px] overflow-y-auto`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && userPrompt.trim() && !isLoading) {
+            if (e.key === 'Enter' && !e.shiftKey && userPrompt.trim() && !isLoading) {
+              e.preventDefault();
               handleSubmit(e);
             }
           }}
