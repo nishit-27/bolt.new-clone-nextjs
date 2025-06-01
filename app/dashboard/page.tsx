@@ -132,10 +132,10 @@ export default function Dashboard() {
     }
     return (
         <div className="flex fixed w-screen h-screen">
-            <div className="w-[30%] ">
-                <div className="">hello</div>
-                <FollowUpSection></FollowUpSection>
-                chat
+            <div className="w-[30%] flex flex-col h-full py-8">
+                <div className="flex-1 flex flex-col justify-center">
+                    <FollowUpSection />
+                </div>
             </div>
             
             <div className="w-[70%]">

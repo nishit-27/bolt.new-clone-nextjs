@@ -37,23 +37,31 @@ export default function FollowUpSection() {
         
     }
     return(
-        <div>
-            {chatMessage.map((msg, index) => (
-  <div key={index} className={`my-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
-    <div className={`inline-block px-3 py-2 rounded ${msg.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}>
-      {msg.role === 'user' ? `You: ${msg.text}` : `AI: ${msg.text}`}
-    </div>
-  </div>
-))}
-
-            {/* {chatMessage[0].role=="user" ? <div>user message: {chatMessage[0].text}</div> : <div> model message:{chatMessage[0].text} </div> } */}
-            <form onSubmit={submitFunction}>
+        <div className="flex flex-col h-full w-full bg-[#141414] border border-[#30363d] rounded-xl shadow-lg p-4">
+            <div className="flex-1 overflow-y-auto mb-4 pr-2 custom-scrollbar">
+                {chatMessage.map((msg, index) => (
+                    <div key={index} className={`my-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+                        <div className={`inline-block px-3 py-2 rounded-lg border ${msg.role === 'user' ? 'bg-[#2c2c2c] border-[#363637] text-white' : 'bg-[#181A20] border-[#23262F] text-[#848484]'}`}
+                        >
+                            {msg.role === 'user' ? `You: ${msg.text}` : `AI: ${msg.text}`}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <form onSubmit={submitFunction} className="flex items-center bg-[#2c2c2c] border border-[#363637] rounded-full px-2 py-1">
                 <input
-                     type="text" onChange={(e) => setUserPrompt(e.target.value)} placeholder="write follow up question">
-                </input>
-                <button className="divide-red-700" type="submit"> submit </button>
+                    type="text"
+                    value={userPrompt}
+                    onChange={(e) => setUserPrompt(e.target.value)}
+                    placeholder="How can Bolt help you today?"
+                    className="flex-1 bg-transparent outline-none text-white placeholder-[#646464] px-3 py-2 rounded-full"
+                />
+                <button type="submit" className="ml-2 bg-white text-black rounded-full p-2 transition-colors duration-200 hover:bg-[#f2f2f2] disabled:bg-[#464646] disabled:text-[#848484]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-7.5-15-7.5v6.75l10.5 0-10.5 0v6.75z" />
+                    </svg>
+                </button>
             </form>
-            
         </div>
     )
 }
