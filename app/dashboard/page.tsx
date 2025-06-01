@@ -137,10 +137,31 @@ export default function Dashboard() {
             </div>
             
             <div className="w-[70%]">
-                <div className="bg-black rounded-full p-1 inline-flex">
+                {/* <div className="bg-black rounded-full p-1 inline-flex">
                     <button className={state == "code" ? "text-blue-400 font-medium px-4 py-2" : "text-gray-400 font-medium px-4 py-2"} onClick={changeStateToCode}>Code</button>
                     <button className={state == "preview" ? "text-blue-400 font-medium px-4 py-2" : "text-gray-400 font-medium px-4 py-2"} onClick={()=> {setstate("preview")}}>Preview</button>
+                </div> */}
+
+                <div className="flex items-center justify-center mb-6 pt-6">
+                    <div className="inline-flex rounded-lg border border-[#23262F] bg-[#18181A] shadow-sm overflow-hidden">
+                        <button
+                            className={`transition-all duration-200 px-6 py-2 font-medium text-base focus:outline-none ${state === "code" ? "bg-[#23262F] text-blue-400" : "text-gray-400 hover:text-blue-400"}`}
+                            onClick={changeStateToCode}
+                        >
+                            Code
+                        </button>
+                        <button
+                            className={`transition-all duration-200 px-6 py-2 font-medium text-base focus:outline-none ${state === "preview" ? "bg-[#23262F] text-blue-400" : "text-gray-400 hover:text-blue-400"}`}
+                            onClick={() => setstate("preview")}
+                        >
+                            Preview
+                        </button>
+                    </div>
                 </div>
+             
+            
+
+                
                 <div className="relative w-full">
                     <div className={`${state === "code" ? "block" : "hidden"}`}>
                         <CodeMirrorIde />

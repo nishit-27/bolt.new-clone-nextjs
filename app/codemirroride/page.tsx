@@ -348,12 +348,12 @@ export default function CodeMirrorIde() {
   return (
     <div className="h-[calc(100vh-12rem)] w-full max-w-[1200px] mx-auto rounded-lg overflow-hidden border border-[#30363d] bg-[#141414]">
       {/* Top Bar */}
-      <div className="h-10 bg-[#141414] border-b border-[#30363d] flex items-center px-4">
+      {/* <div className="h-10 bg-[#141414] border-b border-[#30363d] flex items-center px-4">
         <div className="flex space-x-2">
           <button className="text-[13px] px-3 py-1 rounded text-white hover:bg-[#1e1e1e]">Code</button>
           <button className="text-[13px] px-3 py-1 rounded text-[#8b8b8b] hover:bg-[#1e1e1e]">Preview</button>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex h-[calc(100%-2.5rem)]">
         {/* Sidebar - Fixed width */}

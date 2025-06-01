@@ -7,15 +7,17 @@ import { useContext , createContext} from "react";
 
 export type MessageType = {role:"user" | "model", text: string}
 
+import type { Dispatch, SetStateAction } from "react";
+
 type contextType = {
     finalFiles: FileItem[],
     setFinalFiles: (value: FileItem[]) => void
     templeteName: string,
     setTempleteName: (value: string) => void
     llmMessage: MessageType[],
-    setLlmMessage: (value: MessageType[]) => void
+    setLlmMessage: Dispatch<SetStateAction<MessageType[]>>
     chatMessage: MessageType[],
-    setChatMessage: (value: MessageType[]) => void
+    setChatMessage: Dispatch<SetStateAction<MessageType[]>>
 }
 
 const GlobelContext = createContext<contextType| undefined>(undefined);
