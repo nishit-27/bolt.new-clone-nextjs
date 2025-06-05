@@ -287,255 +287,255 @@ Here are some examples of correct usage of artifacts:
 
 
 export const reactBasePrompt = `<boltArtifact id=\"project-import\" title=\"Project Files\"><boltAction type=\"file\" filePath=\"eslint.config.js\">import js from '@eslint/js';\nimport globals from 'globals';\nimport reactHooks from 'eslint-plugin-react-hooks';\nimport reactRefresh from 'eslint-plugin-react-refresh';\nimport tseslint from 'typescript-eslint';\n\nexport default tseslint.config(\n  { ignores: ['dist'] },\n  {\n    extends: [js.configs.recommended, ...tseslint.configs.recommended],\n    files: ['**/*.{ts,tsx}'],\n    languageOptions: {\n      ecmaVersion: 2020,\n      globals: globals.browser,\n    },\n    plugins: {\n      'react-hooks': reactHooks,\n      'react-refresh': reactRefresh,\n    },\n    rules: {\n      ...reactHooks.configs.recommended.rules,\n      'react-refresh/only-export-components': [\n        'warn',\n        { allowConstantExport: true },\n      ],\n    },\n  }\n);\n</boltAction><boltAction type=\"file\" filePath=\"index.html\"><!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/vite.svg\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Vite + React + TS</title>\n  </head>\n  <body>\n    <div id=\"root\"></div>\n    <script type=\"module\" src=\"/src/main.tsx\"></script>\n  </body>\n</html>\n</boltAction><boltAction type=\"file\" filePath=\"package.json\">{\n  \"name\": \"vite-react-typescript-starter\",\n  \"private\": true,\n  \"version\": \"0.0.0\",\n  \"type\": \"module\",\n  \"scripts\": {\n    \"dev\": \"vite\",\n    \"build\": \"vite build\",\n    \"lint\": \"eslint .\",\n    \"preview\": \"vite preview\"\n  },\n  \"dependencies\": {\n    \"lucide-react\": \"^0.344.0\",\n    \"react\": \"^18.3.1\",\n    \"react-dom\": \"^18.3.1\"\n  },\n  \"devDependencies\": {\n    \"@eslint/js\": \"^9.9.1\",\n    \"@types/react\": \"^18.3.5\",\n    \"@types/react-dom\": \"^18.3.0\",\n    \"@vitejs/plugin-react\": \"^4.3.1\",\n    \"autoprefixer\": \"^10.4.18\",\n    \"eslint\": \"^9.9.1\",\n    \"eslint-plugin-react-hooks\": \"^5.1.0-rc.0\",\n    \"eslint-plugin-react-refresh\": \"^0.4.11\",\n    \"globals\": \"^15.9.0\",\n    \"postcss\": \"^8.4.35\",\n    \"tailwindcss\": \"^3.4.1\",\n    \"typescript\": \"^5.5.3\",\n    \"typescript-eslint\": \"^8.3.0\",\n    \"vite\": \"^5.4.2\"\n  }\n}\n</boltAction><boltAction type=\"file\" filePath=\"postcss.config.js\">export default {\n  plugins: {\n    tailwindcss: {},\n    autoprefixer: {},\n  },\n};\n</boltAction><boltAction type=\"file\" filePath=\"tailwind.config.js\">/** @type {import('tailwindcss').Config} */\nexport default {\n  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],\n  theme: {\n    extend: {},\n  },\n  plugins: [],\n};\n</boltAction><boltAction type=\"file\" filePath=\"tsconfig.app.json\">{\n  \"compilerOptions\": {\n    \"target\": \"ES2020\",\n    \"useDefineForClassFields\": true,\n    \"lib\": [\"ES2020\", \"DOM\", \"DOM.Iterable\"],\n    \"module\": \"ESNext\",\n    \"skipLibCheck\": true,\n\n    /* Bundler mode */\n    \"moduleResolution\": \"bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"noEmit\": true,\n    \"jsx\": \"react-jsx\",\n\n    /* Linting */\n    \"strict\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"noFallthroughCasesInSwitch\": true\n  },\n  \"include\": [\"src\"]\n}\n</boltAction><boltAction type=\"file\" filePath=\"tsconfig.json\">{\n  \"files\": [],\n  \"references\": [\n    { \"path\": \"./tsconfig.app.json\" },\n    { \"path\": \"./tsconfig.node.json\" }\n  ]\n}\n</boltAction><boltAction type=\"file\" filePath=\"tsconfig.node.json\">{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"lib\": [\"ES2023\"],\n    \"module\": \"ESNext\",\n    \"skipLibCheck\": true,\n\n    /* Bundler mode */\n    \"moduleResolution\": \"bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"isolatedModules\": true,\n    \"moduleDetection\": \"force\",\n    \"noEmit\": true,\n\n    /* Linting */\n    \"strict\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"noFallthroughCasesInSwitch\": true\n  },\n  \"include\": [\"vite.config.ts\"]\n}\n</boltAction><boltAction type=\"file\" filePath=\"vite.config.ts\">import { defineConfig } from 'vite';\nimport react from '@vitejs/plugin-react';\n\n// https://vitejs.dev/config/\nexport default defineConfig({\n  plugins: [react()],\n  optimizeDeps: {\n    exclude: ['lucide-react'],\n  },\n});\n</boltAction><boltAction type=\"file\" filePath=\"src/App.tsx\">import React from 'react';\n\nfunction App() {\n  return (\n    <div className=\"min-h-screen bg-gray-100 flex items-center justify-center\">\n      <p>Start prompting (or editing) to see magic happen :)</p>\n    </div>\n  );\n}\n\nexport default App;\n</boltAction><boltAction type=\"file\" filePath=\"src/index.css\">@tailwind base;\n@tailwind components;\n@tailwind utilities;\n</boltAction><boltAction type=\"file\" filePath=\"src/main.tsx\">import { StrictMode } from 'react';\nimport { createRoot } from 'react-dom/client';\nimport App from './App.tsx';\nimport './index.css';\n\ncreateRoot(document.getElementById('root')!).render(\n  <StrictMode>\n    <App />\n  </StrictMode>\n);\n</boltAction><boltAction type=\"file\" filePath=\"src/vite-env.d.ts\">/// <reference types=\"vite/client\" />\n</boltAction></boltArtifact>`
-export const nextBasePrompt = `<boltArtifact id=\"project-import\" title=\"Project Files\">\n\
-<boltAction type=\"file\" filePath=\"package.json\">{\n\
-  \"name\": \"clothing-brand\",\n\
-  \"version\": \"0.1.0\",\n\
-  \"private\": true,\n\
-  \"scripts\": {\n\
-    \"dev\": \"next dev\",\n\
-    \"build\": \"next build\",\n\
-    \"start\": \"next start\",\n\
-    \"lint\": \"next lint\"\n\
-  },\n\
-  \"dependencies\": {\n\
-    \"next\": \"14.1.0\",\n\
-    \"react\": \"^18.2.0\",\n\
-    \"react-dom\": \"^18.2.0\",\n\
-    \"lucide-react\": \"^0.344.0\",\n\
-    \"tailwindcss\": \"^3.4.1\",\n\
-    \"autoprefixer\": \"^10.4.14\",\n\
-    \"postcss\": \"^8.4.23\",\n\
-    \"classnames\": \"^2.3.2\"\n\
-  },\n\
-  \"devDependencies\": {\n\
-    \"@types/node\": \"^20.11.30\",\n\
-    \"@types/react\": \"^18.2.62\",\n\
-    \"@types/react-dom\": \"^18.2.18\",\n\
-    \"typescript\": \"^5.3.3\",\n\
-    \"eslint\": \"8.56.0\",\n\
-    \"eslint-config-next\": \"14.1.0\"\n\
-  }\n\
-}</boltAction>\n\
-<boltAction type=\"file\" filePath=\"tsconfig.json\">{\n\
-  "compilerOptions": {\n\
-    "target": "ES2017",\n\
-    "lib": ["dom", "dom.iterable", "esnext"],\n\
-    "allowJs": true,\n\
-    "skipLibCheck": true,\n\
-    "strict": true,\n\
-    "noEmit": true,\n\
-    "esModuleInterop": true,\n\
-    "module": "esnext",\n\
-    "moduleResolution": "bundler",\n\
-    "resolveJsonModule": true,\n\
-    "isolatedModules": true,\n\
-    "jsx": "preserve",\n\
-    "incremental": true,\n\
-    "plugins": [\n\
-      {\n\
-        "name": "next"\n\
-      }\n\
-    ],\n\
-    "paths": {\n\
-      "@/*": ["./*"]\n\
-    }\n\
-  },\n\
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],\n\
-  "exclude": ["node_modules"]\n\
-}</boltAction>\n\
-<boltAction type=\"file\" filePath=\"app/layout.tsx\">import type { Metadata } from "next";\n\
-import { Geist, Geist_Mono } from "next/font/google";\n\
-import "./globals.css";\n\
-\n\
-const geistSans = Geist({\n\
-  variable: "--font-geist-sans",\n\
-  subsets: ["latin"],\n\
-});\n\
-\n\
-const geistMono = Geist_Mono({\n\
-  variable: "--font-geist-mono",\n\
-  subsets: ["latin"],\n\
-});\n\
-\n\
-export const metadata: Metadata = {\n\
-  title: "Create Next App",\n\
-  description: "Generated by create next app",\n\
-};\n\
-\n\
-export default function RootLayout({\n\
-  children,\n\
-}: Readonly<{\n\
-  children: React.ReactNode;\n\
-}>) {\n\
-  return (\n\
-    <html lang="en">\n\
-      <body\n\
-        className={\`\${geistSans.variable} \${geistMono.variable} antialiased\`}\n\
-      >\n\
-        {children}\n\
-      </body>\n\
-    </html>\n\
-  );\n\
-}</boltAction>\n\
-<boltAction type=\"file\" filePath=\"app/page.tsx\">import Image from "next/image";\n\
-\n\
-export default function Home() {\n\
-  return (\n\
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">\n\
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">\n\
-        <Image\n\
-          className="dark:invert"\n\
-          src="/next.svg"\n\
-          alt="Next.js logo"\n\
-          width={180}\n\
-          height={38}\n\
-          priority\n\
-        />\n\
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">\n\
-          <li className="mb-2 tracking-[-.01em]">\n\
-            Get started by editing{" "}\n\
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">\n\
-              app/page.tsx\n\
-            </code>\n\
-            .\n\
-          </li>\n\
-          <li className="tracking-[-.01em]">\n\
-            Save and see your changes instantly.\n\
-          </li>\n\
-        </ol>\n\
-\n\
-        <div className="flex gap-4 items-center flex-col sm:flex-row">\n\
-          <a\n\
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"\n\
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
-            target="_blank"\n\
-            rel="noopener noreferrer"\n\
-          >\n\
-            <Image\n\
-              className="dark:invert"\n\
-              src="/vercel.svg"\n\
-              alt="Vercel logomark"\n\
-              width={20}\n\
-              height={20}\n\
-            />\n\
-            Deploy now\n\
-          </a>\n\
-          <a\n\
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"\n\
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
-            target="_blank"\n\
-            rel="noopener noreferrer"\n\
-          >\n\
-            Read our docs\n\
-          </a>\n\
-        </div>\n\
-      </main>\n\
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">\n\
-        <a\n\
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
-          target="_blank"\n\
-          rel="noopener noreferrer"\n\
-        >\n\
-          <Image\n\
-            aria-hidden\n\
-            src="/file.svg"\n\
-            alt="File icon"\n\
-            width={16}\n\
-            height={16}\n\
-          />\n\
-          Learn\n\
-        </a>\n\
-        <a\n\
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
-          target="_blank"\n\
-          rel="noopener noreferrer"\n\
-        >\n\
-          <Image\n\
-            aria-hidden\n\
-            src="/window.svg"\n\
-            alt="Window icon"\n\
-            width={16}\n\
-            height={16}\n\
-          />\n\
-          Examples\n\
-        </a>\n\
-        <a\n\
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
-          target="_blank"\n\
-          rel="noopener noreferrer"\n\
-        >\n\
-          <Image\n\
-            aria-hidden\n\
-            src="/globe.svg"\n\
-            alt="Globe icon"\n\
-            width={16}\n\
-            height={16}\n\
-          />\n\
-          Go to nextjs.org →\n\
-        </a>\n\
-      </footer>\n\
-    </div>\n\
-  );\n\
-}</boltAction>\n\
-<boltAction type=\"file\" filePath=\"app/globals.css\">@import "tailwindcss";\n\
-\n\
-:root {\n\
-  --background: #ffffff;\n\
-  --foreground: #171717;\n\
-}\n\
-\n\
-@theme inline {\n\
-  --color-background: var(--background);\n\
-  --color-foreground: var(--foreground);\n\
-  --font-sans: var(--font-geist-sans);\n\
-  --font-mono: var(--font-geist-mono);\n\
-}\n\
-\n\
-@media (prefers-color-scheme: dark) {\n\
-  :root {\n\
-    --background: #0a0a0a;\n\
-    --foreground: #ededed;\n\
-  }\n\
-}\n\
-\n\
-body {\n\
-  background: var(--background);\n\
-  color: var(--foreground);\n\
-  font-family: Arial, Helvetica, sans-serif;\n\
-}</boltAction>\n\
-<boltAction type=\"file\" filePath=\"next.config.ts\">import type { NextConfig } from "next";\n\
-\n\
-const nextConfig: NextConfig = {\n\
-  /* config options here */\n\
-};\n\
-\n\
-export default nextConfig;</boltAction>\n\
-<boltAction type=\"file\" filePath=\"eslint.config.mjs\">import { dirname } from "path";\n\
-import { fileURLToPath } from "url";\n\
-import { FlatCompat } from "@eslint/eslintrc";\n\
-\n\
-const __filename = fileURLToPath(import.meta.url);\n\
-const __dirname = dirname(__filename);\n\
-\n\
-const compat = new FlatCompat({\n\
-  baseDirectory: __dirname,\n\
-});\n\
-\n\
-const eslintConfig = [\n\
-  ...compat.extends("next/core-web-vitals", "next/typescript"),\n\
-];\n\
-\n\
-export default eslintConfig;</boltAction>\n\
-<boltAction type=\"file\" filePath=\"postcss.config.mjs\">const config = {\n\
-  plugins: ["@tailwindcss/postcss"],\n\
-};\n\
-\n\
-export default config;</boltAction>\n\
-</boltArtifact>`; 
-
+// export const nextBasePrompt = `<boltArtifact id=\"project-import\" title=\"Project Files\">\n\
+// <boltAction type=\"file\" filePath=\"package.json\">{\n\
+//   \"name\": \"clothing-brand\",\n\
+//   \"version\": \"0.1.0\",\n\
+//   \"private\": true,\n\
+//   \"scripts\": {\n\
+//     \"dev\": \"next dev\",\n\
+//     \"build\": \"next build\",\n\
+//     \"start\": \"next start\",\n\
+//     \"lint\": \"next lint\"\n\
+//   },\n\
+//   \"dependencies\": {\n\
+//     \"next\": \"14.1.0\",\n\
+//     \"react\": \"^18.2.0\",\n\
+//     \"react-dom\": \"^18.2.0\",\n\
+//     \"lucide-react\": \"^0.344.0\",\n\
+//     \"tailwindcss\": \"^3.4.1\",\n\
+//     \"autoprefixer\": \"^10.4.14\",\n\
+//     \"postcss\": \"^8.4.23\",\n\
+//     \"classnames\": \"^2.3.2\"\n\
+//   },\n\
+//   \"devDependencies\": {\n\
+//     \"@types/node\": \"^20.11.30\",\n\
+//     \"@types/react\": \"^18.2.62\",\n\
+//     \"@types/react-dom\": \"^18.2.18\",\n\
+//     \"typescript\": \"^5.3.3\",\n\
+//     \"eslint\": \"8.56.0\",\n\
+//     \"eslint-config-next\": \"14.1.0\"\n\
+//   }\n\
+// }</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"tsconfig.json\">{\n\
+//   "compilerOptions": {\n\
+//     "target": "ES2017",\n\
+//     "lib": ["dom", "dom.iterable", "esnext"],\n\
+//     "allowJs": true,\n\
+//     "skipLibCheck": true,\n\
+//     "strict": true,\n\
+//     "noEmit": true,\n\
+//     "esModuleInterop": true,\n\
+//     "module": "esnext",\n\
+//     "moduleResolution": "bundler",\n\
+//     "resolveJsonModule": true,\n\
+//     "isolatedModules": true,\n\
+//     "jsx": "preserve",\n\
+//     "incremental": true,\n\
+//     "plugins": [\n\
+//       {\n\
+//         "name": "next"\n\
+//       }\n\
+//     ],\n\
+//     "paths": {\n\
+//       "@/*": ["./*"]\n\
+//     }\n\
+//   },\n\
+//   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],\n\
+//   "exclude": ["node_modules"]\n\
+// }</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"app/layout.tsx\">import type { Metadata } from "next";\n\
+// import { Geist, Geist_Mono } from "next/font/google";\n\
+// import "./globals.css";\n\
+// \n\
+// const geistSans = Geist({\n\
+//   variable: "--font-geist-sans",\n\
+//   subsets: ["latin"],\n\
+// });\n\
+// \n\
+// const geistMono = Geist_Mono({\n\
+//   variable: "--font-geist-mono",\n\
+//   subsets: ["latin"],\n\
+// });\n\
+// \n\
+// export const metadata: Metadata = {\n\
+//   title: "Create Next App",\n\
+//   description: "Generated by create next app",\n\
+// };\n\
+// \n\
+// export default function RootLayout({\n\
+//   children,\n\
+// }: Readonly<{\n\
+//   children: React.ReactNode;\n\
+// }>) {\n\
+//   return (\n\
+//     <html lang="en">\n\
+//       <body\n\
+//         className={\`\${geistSans.variable} \${geistMono.variable} antialiased\`}\n\
+//       >\n\
+//         {children}\n\
+//       </body>\n\
+//     </html>\n\
+//   );\n\
+// }</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"app/page.tsx\">import Image from "next/image";\n\
+// \n\
+// export default function Home() {\n\
+//   return (\n\
+//     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">\n\
+//       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">\n\
+//         <Image\n\
+//           className="dark:invert"\n\
+//           src="/next.svg"\n\
+//           alt="Next.js logo"\n\
+//           width={180}\n\
+//           height={38}\n\
+//           priority\n\
+//         />\n\
+//         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">\n\
+//           <li className="mb-2 tracking-[-.01em]">\n\
+//             Get started by editing{" "}\n\
+//             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">\n\
+//               app/page.tsx\n\
+//             </code>\n\
+//             .\n\
+//           </li>\n\
+//           <li className="tracking-[-.01em]">\n\
+//             Save and see your changes instantly.\n\
+//           </li>\n\
+//         </ol>\n\
+// \n\
+//         <div className="flex gap-4 items-center flex-col sm:flex-row">\n\
+//           <a\n\
+//             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"\n\
+//             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
+//             target="_blank"\n\
+//             rel="noopener noreferrer"\n\
+//           >\n\
+//             <Image\n\
+//               className="dark:invert"\n\
+//               src="/vercel.svg"\n\
+//               alt="Vercel logomark"\n\
+//               width={20}\n\
+//               height={20}\n\
+//             />\n\
+//             Deploy now\n\
+//           </a>\n\
+//           <a\n\
+//             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"\n\
+//             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
+//             target="_blank"\n\
+//             rel="noopener noreferrer"\n\
+//           >\n\
+//             Read our docs\n\
+//           </a>\n\
+//         </div>\n\
+//       </main>\n\
+//       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">\n\
+//         <a\n\
+//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
+//           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
+//           target="_blank"\n\
+//           rel="noopener noreferrer"\n\
+//         >\n\
+//           <Image\n\
+//             aria-hidden\n\
+//             src="/file.svg"\n\
+//             alt="File icon"\n\
+//             width={16}\n\
+//             height={16}\n\
+//           />\n\
+//           Learn\n\
+//         </a>\n\
+//         <a\n\
+//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
+//           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
+//           target="_blank"\n\
+//           rel="noopener noreferrer"\n\
+//         >\n\
+//           <Image\n\
+//             aria-hidden\n\
+//             src="/window.svg"\n\
+//             alt="Window icon"\n\
+//             width={16}\n\
+//             height={16}\n\
+//           />\n\
+//           Examples\n\
+//         </a>\n\
+//         <a\n\
+//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"\n\
+//           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"\n\
+//           target="_blank"\n\
+//           rel="noopener noreferrer"\n\
+//         >\n\
+//           <Image\n\
+//             aria-hidden\n\
+//             src="/globe.svg"\n\
+//             alt="Globe icon"\n\
+//             width={16}\n\
+//             height={16}\n\
+//           />\n\
+//           Go to nextjs.org →\n\
+//         </a>\n\
+//       </footer>\n\
+//     </div>\n\
+//   );\n\
+// }</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"app/globals.css\">@import "tailwindcss";\n\
+// \n\
+// :root {\n\
+//   --background: #ffffff;\n\
+//   --foreground: #171717;\n\
+// }\n\
+// \n\
+// @theme inline {\n\
+//   --color-background: var(--background);\n\
+//   --color-foreground: var(--foreground);\n\
+//   --font-sans: var(--font-geist-sans);\n\
+//   --font-mono: var(--font-geist-mono);\n\
+// }\n\
+// \n\
+// @media (prefers-color-scheme: dark) {\n\
+//   :root {\n\
+//     --background: #0a0a0a;\n\
+//     --foreground: #ededed;\n\
+//   }\n\
+// }\n\
+// \n\
+// body {\n\
+//   background: var(--background);\n\
+//   color: var(--foreground);\n\
+//   font-family: Arial, Helvetica, sans-serif;\n\
+// }</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"next.config.ts\">import type { NextConfig } from "next";\n\
+// \n\
+// const nextConfig: NextConfig = {\n\
+//   /* config options here */\n\
+// };\n\
+// \n\
+// export default nextConfig;</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"eslint.config.mjs\">import { dirname } from "path";\n\
+// import { fileURLToPath } from "url";\n\
+// import { FlatCompat } from "@eslint/eslintrc";\n\
+// \n\
+// const __filename = fileURLToPath(import.meta.url);\n\
+// const __dirname = dirname(__filename);\n\
+// \n\
+// const compat = new FlatCompat({\n\
+//   baseDirectory: __dirname,\n\
+// });\n\
+// \n\
+// const eslintConfig = [\n\
+//   ...compat.extends("next/core-web-vitals", "next/typescript"),\n\
+// ];\n\
+// \n\
+// export default eslintConfig;</boltAction>\n\
+// <boltAction type=\"file\" filePath=\"postcss.config.mjs\">const config = {\n\
+//   plugins: ["@tailwindcss/postcss"],\n\
+// };\n\
+// \n\
+// export default config;</boltAction>\n\
+// </boltArtifact>`; 
+export const nextBasePrompt = `<boltArtifact id=\"project-import\" title=\"Project Files\"><boltAction type=\"file\" filePath=\"eslint.config.mjs\">import { dirname } from \"path\";\nimport { fileURLToPath } from \"url\";\nimport { FlatCompat } from \"@eslint/eslintrc\";\n\nconst __filename = fileURLToPath(import.meta.url);\nconst __dirname = dirname(__filename);\n\nconst compat = new FlatCompat({\n  baseDirectory: __dirname,\n});\n\nconst eslintConfig = [\n  ...compat.extends(\"next/core-web-vitals\", \"next/typescript\"),\n];\n\nexport default eslintConfig;\n</boltAction><boltAction type=\"file\" filePath=\"package.json\">{\n  \"name\": \"next-template\",\n  \"version\": \"0.1.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"dev\": \"next dev --turbopack\",\n    \"build\": \"next build\",\n    \"start\": \"next start\",\n    \"lint\": \"next lint\"\n  },\n  \"dependencies\": {\n    \"react\": \"^18.0.0\",\n    \"react-dom\": \"^18.0.0\",\n    \"next\": \"15.3.3\"\n  },\n  \"devDependencies\": {\n    \"typescript\": \"^5\",\n    \"@types/node\": \"^20\",\n    \"@types/react\": \"^19\",\n    \"@types/react-dom\": \"^19\",\n    \"@tailwindcss/postcss\": \"^4\",\n    \"tailwindcss\": \"^4\",\n    \"eslint\": \"^9\",\n    \"eslint-config-next\": \"15.3.3\",\n    \"@eslint/eslintrc\": \"^3\"\n  }\n}\n</boltAction><boltAction type=\"file\" filePath=\"postcss.config.mjs\">const config = {\n  plugins: [\"@tailwindcss/postcss\"],\n};\n\nexport default config;\n</boltAction><boltAction type=\"file\" filePath=\"tsconfig.json\">{\n  \"compilerOptions\": {\n    \"target\": \"ES2017\",\n    \"lib\": [\"dom\", \"dom.iterable\", \"esnext\"],\n    \"allowJs\": true,\n    \"skipLibCheck\": true,\n    \"strict\": true,\n    \"noEmit\": true,\n    \"esModuleInterop\": true,\n    \"module\": \"esnext\",\n    \"moduleResolution\": \"bundler\",\n    \"resolveJsonModule\": true,\n    \"isolatedModules\": true,\n    \"jsx\": \"preserve\",\n    \"incremental\": true,\n    \"plugins\": [\n      {\n        \"name\": \"next\"\n      }\n    ],\n    \"paths\": {\n      \"@/*\": [\"./*\"]\n    }\n  },\n  \"include\": [\"next-env.d.ts\", \"**/*.ts\", \"**/*.tsx\", \".next/types/**/*.ts\"],\n  \"exclude\": [\"node_modules\"]\n}\n</boltAction><boltAction type=\"file\" filePath=\"next.config.ts\">import type { NextConfig } from \"next\";\n\nconst nextConfig: NextConfig = {\n  /* config options here */\n};\n\nexport default nextConfig;\n</boltAction><boltAction type=\"file\" filePath=\"app/layout.tsx\">import type { Metadata } from \"next\";\nimport { Inter } from \"next/font/google\";\nimport \"./globals.css\";\n\nconst inter = Inter({ subsets: [\"latin\"] });\n\nexport const metadata: Metadata = {\n  title: \"Next.js Template\",\n  description: \"A modern Next.js template\",\n};\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode;\n}) {\n  return (\n    <html lang=\"en\">\n      <body className={inter.className}>{children}</body>\n    </html>\n  );\n}\n</boltAction><boltAction type=\"file\" filePath=\"app/page.tsx\">export default function Home() {\n  return (\n    <main className=\"min-h-screen bg-gray-100 flex items-center justify-center\">\n      <p>Start prompting (or editing) to see magic happen :)</p>\n    </main>\n  );\n}\n</boltAction><boltAction type=\"file\" filePath=\"app/globals.css\">@tailwind base;\n@tailwind components;\n@tailwind utilities;\n</boltAction></boltArtifact>`
 
 export const FOLLOWUP_BASE = "Below is the conversation history, including all previous messages along with the most recent assistant response. Please reference this context to inform your future responses and maintain conversation continuity."

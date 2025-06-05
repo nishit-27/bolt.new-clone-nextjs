@@ -12,7 +12,7 @@ export async function geminiTemplateResponse(userPrompt:string, systemPrompt:str
       systemInstruction: systemPrompt,
     },
   });
-  console.log(response);
+  console.log(response.text);
   return response.text;
 }
 export async function geminiTest(userPrompt:string, systemPrompt:string) {
