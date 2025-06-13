@@ -193,7 +193,21 @@ export interface FileItem {
   content?: string;
 }
 
-
+// Helper to recursively update file content in the FileItem structure
+const updateFileContentRecursive = (files: FileItem[], fileName: string, newContent: string): FileItem[] => {
+  return files.map(file => {
+    if (file.type === 'file' && file.name === fileName) {
+      return { ...file, content: newContent };
+    } else if (file.type === 'folder' && file.children) {
+      const updatedChildren = updateFileContentRecursive(file.children, fileName, newContent);
+      // Only return a new folder object if its children actually changed
+      if (updatedChildren !== file.children) {
+        return { ...file, children: updatedChildren };
+      }
+    }
+    return file;
+  });
+};
 
 function FileExplorer({ files, onFileSelect }: { files: FileItem[], onFileSelect: (file: FileItem) => void }) {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['src']));
@@ -343,6 +357,9 @@ export default function CodeMirrorIde() {
     const updatedFile = { ...activeFile, content: value };
     setActiveFile(updatedFile);
     setOpenFiles(openFiles.map(f => f.name === updatedFile.name ? updatedFile : f));
+
+    // Update the sampleFiles as well, ensuring the latest changes are persisted
+    setSampleFiles(prevSampleFiles => updateFileContentRecursive(prevSampleFiles, updatedFile.name, value));
   };
 
   return (
