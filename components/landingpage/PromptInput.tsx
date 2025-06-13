@@ -28,6 +28,7 @@ export default function PromptInput() {
         headers:{ "Content-type" : "applicatoin/json" },
         body: JSON.stringify({userPrompt: userPrompt})
       });
+      router.push("/dashboard")
       const llmResponse = await response.json()
       const chatResponse = llmResponse.chatResponse;
       const template = llmResponse.response.trim()
@@ -45,7 +46,7 @@ export default function PromptInput() {
         setLlmMessage([...llmMessage, {role: "user", text: "i have attached the sample code of a template that we are using. this is the starting point. make sure you make changes accordingly. This is the code:" + nextBasePrompt},{role:"user",text:userPrompt},{role: "model", text: llmResponse.chatResponse}])
       }
       
-      router.push("/dashboard")
+      
     } catch(error) {
       console.log("error in sending prompt" + error)
     } finally {

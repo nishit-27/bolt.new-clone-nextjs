@@ -328,6 +328,11 @@ export default function CodeMirrorIde() {
     }
   }, [mergedFiles]) // This will run every time mergedFiles changes
 
+  function updateMergedFileOnChangeOfSampleFile(){
+    setMergedFiles(sampleFiles)
+    console.log("save function called")
+  }
+
   const [openFiles, setOpenFiles] = useState<FileItem[]>(() => {
     const initialFile = findFileByName(filesOnly, 'package.json');
     return initialFile ? [initialFile] : [];
@@ -371,7 +376,7 @@ export default function CodeMirrorIde() {
           <button className="text-[13px] px-3 py-1 rounded text-[#8b8b8b] hover:bg-[#1e1e1e]">Preview</button>
         </div>
       </div> */}
-
+      <div onClick={updateMergedFileOnChangeOfSampleFile}> Save </div>
       <div className="flex h-[calc(100%-2.5rem)]">
         {/* Sidebar - Fixed width */}
         <div className="w-[200px] min-w-[200px] max-w-[200px] bg-[#141414] border-r border-[#30363d] flex flex-col">
