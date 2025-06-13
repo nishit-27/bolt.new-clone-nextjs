@@ -1,4 +1,4 @@
-import { geminiChatResponse, geminiChatResponse2, geminiTest } from "@/utils/gemini";
+import { geminiChatResponse2 } from "@/utils/gemini";
 import { reactBasePrompt } from "@/utils/prompts";
 import { NextResponse } from "next/server";
 

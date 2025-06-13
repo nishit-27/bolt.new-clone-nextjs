@@ -1,28 +1,36 @@
 "use client"
-import {
-    SandpackProvider,
-    SandpackLayout,
-    SandpackPreview,
-    SandpackCodeEditor,
-    SandpackFileExplorer
-} from "@codesandbox/sandpack-react";
-import { Code, Height } from "@mui/icons-material";
+
 import { useEffect, useState, useRef } from "react";
-import CodeMirrorIde, { FileItem } from "../codemirroride/page";
-import PreviewCode from "@/components/PreviewCode";
-import { getWebContainer } from "@/utils/webcontainer";
+import dynamic from 'next/dynamic';
 import { useMergedContextProvider } from "@/components/mergedFileContextProvider";
 import { convertToFileSystemStructure } from "@/utils/finalparser";
-import { WebContainer } from "@webcontainer/api";
-import FollowUpSection from "@/components/FollowUpSection";
-import { Terminal } from '@xterm/xterm';
-import { FitAddon } from '@xterm/addon-fit';
+import type { WebContainer } from "@webcontainer/api";
+import type { Terminal as XTermTerminal } from '@xterm/xterm';
+import type { FitAddon as XTermFitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';
+import { getWebContainer } from "@/utils/webcontainer";
 
-export default function Dashboard() {
+// Dynamically import components
+const CodeMirrorIde = dynamic(() => import("../codemirroride/page"), {
+  loading: () => <div className="flex items-center justify-center h-full text-gray-400">Loading editor...</div>,
+  ssr: false
+});
+
+const PreviewCode = dynamic(() => import("@/components/PreviewCode"), {
+  loading: () => <div className="flex items-center justify-center h-full text-gray-400">Loading preview...</div>,
+  ssr: false
+});
+
+const FollowUpSection = dynamic(() => import("@/components/FollowUpSection"), {
+  loading: () => <div className="flex items-center justify-center h-full text-gray-400">Loading...</div>,
+  ssr: false
+});
+
+// Create a client-side only wrapper component
+const DashboardClient = () => {
     const [state, setstate] = useState("code")
     const {mergedFiles} = useMergedContextProvider()
-    const [webContainer, setWebContainer] = useState<WebContainer>()
+    const [webContainer, setWebContainer] = useState<WebContainer | null>(null)
     const [url, setUrl] = useState("")
     const [isStarted, setIsStarted] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +38,7 @@ export default function Dashboard() {
     
     // Terminal related state
     const terminalRef = useRef<HTMLDivElement>(null);
-    const [terminal, setTerminal] = useState<Terminal | null>(null);
+    const [terminal, setTerminal] = useState<XTermTerminal | null>(null);
     const [shellProcess, setShellProcess] = useState<any>(null);
     const [terminalReady, setTerminalReady] = useState(false);
  
@@ -61,6 +69,9 @@ export default function Dashboard() {
         if (!terminalRef.current || !webContainer || terminal) return;
 
         try {
+            const { Terminal } = await import('@xterm/xterm');
+            const { FitAddon } = await import('@xterm/addon-fit');
+            
             // Create terminal instance
             const fitAddon = new FitAddon();
             const terminalInstance = new Terminal({
@@ -113,7 +124,7 @@ export default function Dashboard() {
         }
     };
 
-    const startShell = async (terminal: Terminal, webContainer: WebContainer) => {
+    const startShell = async (terminal: XTermTerminal, webContainer: WebContainer) => {
         try {
             const shellProcess = await webContainer.spawn('jsh', {
                 terminal: {
@@ -125,7 +136,7 @@ export default function Dashboard() {
             // Pipe output from shell to terminal
             shellProcess.output.pipeTo(
                 new WritableStream({
-                    write(data) {
+                    write(data: string) {
                         terminal.write(data);
                     },
                 })
@@ -133,7 +144,7 @@ export default function Dashboard() {
 
             // Pipe input from terminal to shell
             const input = shellProcess.input.getWriter();
-            terminal.onData((data) => {
+            terminal.onData((data: string) => {
                 input.write(data);
             });
 
@@ -145,23 +156,21 @@ export default function Dashboard() {
         }
     };
 
-    async function installDependencies(webContainer: WebContainer, terminal?: Terminal) {
+    async function installDependencies(webContainer: WebContainer, terminal?: XTermTerminal) {
         const installProcess = await webContainer.spawn("npm", ["install"]);
         
         if (terminal) {
-            // If terminal is available, pipe output to terminal
             installProcess.output.pipeTo(
                 new WritableStream({
-                    write(data) {
+                    write(data: string) {
                         terminal.write(data);
                     },
                 }),
             );
         } else {
-            // Fallback to console
             installProcess.output.pipeTo(
                 new WritableStream({
-                    write(data) {
+                    write(data: string) {
                         console.log(data);
                     },
                 }),
@@ -171,12 +180,12 @@ export default function Dashboard() {
         return installProcess.exit;
     }
 
-    async function startDevServer(webContainer: WebContainer) {
-        await webContainer.spawn("npm", ["run", "dev"]);
-        webContainer.on("server-ready", (port, url) => {
-            setUrl(url);
-        });
-    }
+    // async function startDevServer(webContainer: WebContainer) {
+    //     await webContainer.spawn("npm", ["run", "dev"]);
+    //     webContainer.on("server-ready", (port, url) => {
+    //         setUrl(url);
+    //     });
+    // }
 
     useEffect(() => {
         if (mergedFiles && mergedFiles.length > 0 && !isStarted && !isLoading) {
@@ -353,3 +362,8 @@ export default function Dashboard() {
         </div>
     )
 }
+
+// Export the page with SSR disabled
+export default dynamic(() => Promise.resolve(DashboardClient), {
+    ssr: false
+});

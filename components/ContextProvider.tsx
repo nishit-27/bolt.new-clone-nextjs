@@ -2,7 +2,7 @@
 import { FileItem } from "@/app/codemirroride/page";
 import { BASE_PROMPT, FOLLOWUP_BASE } from "@/utils/prompts";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { useContext , createContext} from "react";
 
 export type MessageType = {role:"user" | "model", text: string}

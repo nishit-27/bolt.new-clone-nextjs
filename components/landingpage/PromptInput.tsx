@@ -1,8 +1,8 @@
 "use client";
 
-import { ChevronUp, Image, CircleDollarSign, Send, ArrowUp, Loader2 } from 'lucide-react';
+import { Image, CircleDollarSign, ArrowUp, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { FormEvent, use, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { extractSummaryFromLLMResponse, parseBoltArtifactToFileItems } from '@/utils/parser';
 import { useRouter } from 'next/navigation';
 import { useContextProvider } from '../ContextProvider';
@@ -12,7 +12,7 @@ export default function PromptInput() {
   const [isFocused, setIsFocused] = useState(false);
   const [userPrompt, setUserPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const {setTempleteName,templeteName,llmMessage,setLlmMessage,setFinalFiles,chatMessage,setChatMessage} = useContextProvider()
+  const {setTempleteName,llmMessage,setLlmMessage,setFinalFiles,chatMessage,setChatMessage} = useContextProvider()
 
   const router = useRouter()
 
@@ -23,7 +23,7 @@ export default function PromptInput() {
     setIsLoading(true);
     
     try {
-      const response = await fetch("http://localhost:3000/api/template",{
+      const response = await fetch("/api/template",{
         method:"POST",
         headers:{ "Content-type" : "applicatoin/json" },
         body: JSON.stringify({userPrompt: userPrompt})

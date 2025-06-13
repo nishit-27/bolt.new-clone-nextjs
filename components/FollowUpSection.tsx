@@ -6,7 +6,7 @@ import { useMergedContextProvider } from "./mergedFileContextProvider"
 
 export default function FollowUpSection() {
     const [userPrompt, setUserPrompt] = useState("")
-    const {llmMessage,setLlmMessage,setFinalFiles,finalFiles,setChatMessage,chatMessage} = useContextProvider()
+    const {llmMessage,setLlmMessage,setChatMessage,chatMessage} = useContextProvider()
     const {setMergedFiles,mergedFiles} = useMergedContextProvider()
     async function submitFunction(e:FormEvent) {
         e.preventDefault()
@@ -16,7 +16,7 @@ export default function FollowUpSection() {
         }
         setChatMessage((prev: MessageType[]) => [...prev, userMessage]);
         setUserPrompt("")
-        const response = await fetch("http://localhost:3000/api/chat",{
+        const response = await fetch("/api/chat",{
             method: "POST",
             headers: {"Content-type" : "application/json"},
             body: JSON.stringify([...llmMessage,userMessage])

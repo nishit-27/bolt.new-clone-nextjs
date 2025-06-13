@@ -1,6 +1,5 @@
 import { MessageType } from "@/components/ContextProvider";
-import { geminiChatResponse, geminiFollowupChatResponse } from "@/utils/gemini";
-import { BasePrompt } from "@/utils/prompts";
+import { geminiFollowupChatResponse } from "@/utils/gemini";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
