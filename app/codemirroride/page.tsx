@@ -331,6 +331,7 @@ export default function CodeMirrorIde() {
   function updateMergedFileOnChangeOfSampleFile(){
     setMergedFiles(sampleFiles)
     console.log("save function called")
+    setIsChangeInCode(false)
   }
 
   const [openFiles, setOpenFiles] = useState<FileItem[]>(() => {
@@ -357,14 +358,16 @@ export default function CodeMirrorIde() {
       setActiveFile(newOpenFiles[0]);
     }
   };
-
+const [isChangeInCode,setIsChangeInCode] = useState<boolean>(false)
   const handleCodeChange = (value: string) => {
     const updatedFile = { ...activeFile, content: value };
     setActiveFile(updatedFile);
     setOpenFiles(openFiles.map(f => f.name === updatedFile.name ? updatedFile : f));
 
+
     // Update the sampleFiles as well, ensuring the latest changes are persisted
     setSampleFiles(prevSampleFiles => updateFileContentRecursive(prevSampleFiles, updatedFile.name, value));
+    setIsChangeInCode(true)
   };
 
   return (
@@ -376,11 +379,14 @@ export default function CodeMirrorIde() {
           <button className="text-[13px] px-3 py-1 rounded text-[#8b8b8b] hover:bg-[#1e1e1e]">Preview</button>
         </div>
       </div> */}
-      <div onClick={updateMergedFileOnChangeOfSampleFile}> Save </div>
+      {/* <button className={`${isChangeInCode ? "block" : "hidden"} border`} onClick={updateMergedFileOnChangeOfSampleFile}> Save </button> */}
       <div className="flex h-[calc(100%-2.5rem)]">
         {/* Sidebar - Fixed width */}
         <div className="w-[200px] min-w-[200px] max-w-[200px] bg-[#141414] border-r border-[#30363d] flex flex-col">
-          <div className="p-2 text-[11px] font-medium text-[#8b8b8b] uppercase tracking-wide">Files</div>
+          <div className='flex justify-between'>
+            <div className="p-2 text-[11px] font-medium text-[#8b8b8b] uppercase tracking-wide">Files</div>
+            <button className={`${isChangeInCode ? "block" : "hidden"} border rounded-4xl p-2 text-[11px] font-medium text-[#8b8b8b] uppercase tracking-wide`} onClick={updateMergedFileOnChangeOfSampleFile}> Apply Changes </button>
+          </div>
           <div className="overflow-y-auto flex-1">
             <FileExplorer files={sampleFiles} onFileSelect={handleFileSelect} />
           </div>
