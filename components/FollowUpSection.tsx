@@ -6,35 +6,44 @@ import { useMergedContextProvider } from "./mergedFileContextProvider"
 
 export default function FollowUpSection() {
     const [userPrompt, setUserPrompt] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const {llmMessage,setLlmMessage,setChatMessage,chatMessage} = useContextProvider()
     const {setMergedFiles,mergedFiles} = useMergedContextProvider()
+    
     async function submitFunction(e:FormEvent) {
         e.preventDefault()
+        setIsLoading(true)
         const  userMessage : MessageType = {
             role: "user",
             text: userPrompt
         }
         setChatMessage((prev: MessageType[]) => [...prev, userMessage]);
         setUserPrompt("")
-        const response = await fetch("/api/chat",{
-            method: "POST",
-            headers: {"Content-type" : "application/json"},
-            body: JSON.stringify([...llmMessage,userMessage])
-        })
-        const LLM = await response.json()
-        const llmResponse = LLM.llmResponse
-        console.log("LLM RESPONSE::", llmResponse)
+        try {
+            const response = await fetch("/api/chat",{
+                method: "POST",
+                headers: {"Content-type" : "application/json"},
+                body: JSON.stringify([...llmMessage,userMessage])
+            })
+            const LLM = await response.json()
+            const llmResponse = LLM.llmResponse
+            console.log("LLM RESPONSE::", llmResponse)
 
-        const parseData = parseBoltArtifactToFileItems(llmResponse)
-        const chatMessageLlm = extractSummaryFromLLMResponse(llmResponse)
-        console.log("this is what i have parsed for you from followup", parseData)
-        
-        const mergedFFiles = mergeFiles(mergedFiles,parseData)
-        console.log("final merged file", mergedFFiles)
-        setMergedFiles(mergedFFiles)
-        setLlmMessage([...llmMessage, userMessage, {role: "model", text:llmResponse }])
-        setChatMessage((prev: MessageType[]) => [...prev, {role: "model", text:chatMessageLlm }])
-        
+            const parseData = parseBoltArtifactToFileItems(llmResponse)
+            const chatMessageLlm = extractSummaryFromLLMResponse(llmResponse)
+            console.log("this is what i have parsed for you from followup", parseData)
+            
+            const mergedFFiles = mergeFiles(mergedFiles,parseData)
+            console.log("final merged file", mergedFFiles)
+            setMergedFiles(mergedFFiles)
+            setLlmMessage([...llmMessage, userMessage, {role: "model", text:llmResponse }])
+            setChatMessage((prev: MessageType[]) => [...prev, {role: "model", text:chatMessageLlm }])
+        } catch (error) {
+            console.error("Error during API request:", error)
+            setChatMessage((prev: MessageType[]) => [...prev, {role: "model", text: "Sorry, there was an error processing your request. Please try again." }])
+        } finally {
+            setIsLoading(false)
+        }
     }
     return(
         <div className="flex flex-col h-full w-full bg-[#121212] border border-[#30363d] rounded-xl shadow-lg p-4">
@@ -49,6 +58,11 @@ export default function FollowUpSection() {
                     </div>
                 ))}
             </div>
+            {isLoading && (
+                <div className="flex justify-center items-center py-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                </div>
+            )}
             <form onSubmit={submitFunction} className="w-full flex items-end bg-transparent mt-2">
                 <div className="relative flex-1">
                     <textarea
@@ -56,7 +70,8 @@ export default function FollowUpSection() {
                         onChange={(e) => setUserPrompt(e.target.value)}
                         placeholder="How can Bolt help you today?"
                         rows={1}
-                        className="w-full bg-[#0f1114] text-white placeholder-[#646464] rounded-xl px-4 py-3 text-base resize-none outline-none border border-[#23262F] shadow-sm transition focus:border-blue-500 min-h-[48px] max-h-[160px] pr-12"
+                        disabled={isLoading}
+                        className={`w-full bg-[#0f1114] text-white placeholder-[#646464] rounded-xl px-4 py-3 text-base resize-none outline-none border border-[#23262F] shadow-sm transition focus:border-blue-500 min-h-[48px] max-h-[160px] pr-12 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         style={{ minHeight: '90px', maxHeight: '160px' }}
                         onInput={e => {
                             const target = e.target as HTMLTextAreaElement;
@@ -66,13 +81,13 @@ export default function FollowUpSection() {
                         onKeyDown={e => {
                             if (e.key === 'Enter' && !e.shiftKey) {
                                 e.preventDefault();
-                                if (userPrompt.trim()) {
+                                if (userPrompt.trim() && !isLoading) {
                                     submitFunction(e as any);
                                 }
                             }
                         }}
                     />
-                    {userPrompt.trim() && (
+                    {userPrompt.trim() && !isLoading && (
                         <button
                             type="submit"
                             className="absolute right-2 bottom-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition-colors duration-200 shadow-md"
