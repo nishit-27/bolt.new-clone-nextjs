@@ -3,13 +3,21 @@ import { MessageType, useContextProvider } from "./ContextProvider"
 import { extractSummaryFromLLMResponse, parseBoltArtifactToFileItems } from "@/utils/parser"
 import { mergeFiles } from "@/utils/merge"
 import { useMergedContextProvider } from "./mergedFileContextProvider"
+import { useRef, useEffect } from "react"
 
 export default function FollowUpSection() {
     const [userPrompt, setUserPrompt] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const {llmMessage,setLlmMessage,setChatMessage,chatMessage} = useContextProvider()
     const {setMergedFiles,mergedFiles} = useMergedContextProvider()
-    
+    const chatEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (chatEndRef.current) {
+        chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, [chatMessage]);
+
     async function submitFunction(e:FormEvent) {
         e.preventDefault()
         setIsLoading(true)
@@ -32,7 +40,7 @@ export default function FollowUpSection() {
             const parseData = parseBoltArtifactToFileItems(llmResponse)
             const chatMessageLlm = extractSummaryFromLLMResponse(llmResponse)
             console.log("this is what i have parsed for you from followup", parseData)
-            
+
             const mergedFFiles = mergeFiles(mergedFiles,parseData)
             console.log("final merged file", mergedFFiles)
             setMergedFiles(mergedFFiles)
@@ -57,7 +65,9 @@ export default function FollowUpSection() {
                         </div>
                     </div>
                 ))}
+                <div ref={chatEndRef} />
             </div>
+            {/** Auto-scroll to bottom on chatMessage change */}
             {isLoading && (
                 <div className="flex justify-center items-center py-4">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
