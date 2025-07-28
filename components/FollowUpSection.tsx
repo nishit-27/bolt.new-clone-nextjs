@@ -50,8 +50,8 @@ export default function FollowUpSection() {
             <div className="flex-1 min-h-0 overflow-y-auto pr-2 custom-scrollbar">
                 {chatMessage.map((msg, index) => (
                     <div key={index} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} mb-6`}>
-                        <div className={`max-w-[80%] px-6 py-4 rounded-2xl break-words shadow-lg text-base font-normal
-                            ${msg.role === 'user' ? 'bg-[#16181e] text-white' : 'bg-[#0d0f12] text-gray-200 shadow'}
+                        <div className={`max-w-[80%] px-6 py-4 rounded-2xl break-words shadow-lg text-sm font-normal
+                            ${msg.role === 'user' ? 'bg-[#16181e]  text-gray-100 shadow' : 'bg-[#0d0f12] text-gray-200 shadow'}
                         `}>
                             {msg.text}
                         </div>
