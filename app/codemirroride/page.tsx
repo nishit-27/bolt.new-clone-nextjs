@@ -395,7 +395,7 @@ const [isChangeInCode,setIsChangeInCode] = useState<boolean>(false)
         {/* Main Content */}
         <div className="flex-1 flex flex-col bg-[#141414] min-w-0">
           {/* Tabs */}
-          <div className="bg-[#141414] flex items-center border-b border-[#30363d] h-9 min-h-[2.25rem] overflow-x-auto">
+          <div className="bg-[#141414] flex items-center border-b border-[#30363d] h-9 min-h-[2.25rem] overflow-x-auto hide-scrollbar">
             {openFiles.filter(Boolean).map(file => (
               <div
                 key={file.name}
