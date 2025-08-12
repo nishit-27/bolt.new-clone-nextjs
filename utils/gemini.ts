@@ -33,7 +33,7 @@ export async function geminiChatResponse(userPrompt:string, basePrompt: string) 
 
 export async function geminiFollowupChatResponse(llmMessage: MessageType[]) {
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-pro",
+    model: "gemini-2.5-flash",
     contents: llmMessage,
     config: {
       systemInstruction: getSystemPrompt(),
