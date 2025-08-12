@@ -18,7 +18,7 @@ export async function geminiTemplateResponse(userPrompt:string, systemPrompt:str
 
 export async function geminiChatResponse(userPrompt:string, basePrompt: string) {
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-flash",
     contents: [{role:"user", text: BASE_PROMPT},{role:"user",text:"i have attached the sample code of a template that we are using. this is the starting point. make sure you make changes accordingly. This is the code:"+basePrompt},{role:"user",text:userPrompt}
     ],
     config: {
@@ -33,7 +33,7 @@ export async function geminiChatResponse(userPrompt:string, basePrompt: string) 
 
 export async function geminiFollowupChatResponse(llmMessage: MessageType[]) {
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "gemini-2.5-pro",
     contents: llmMessage,
     config: {
       systemInstruction: getSystemPrompt(),

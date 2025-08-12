@@ -15,7 +15,7 @@ export async function POST(req:NextRequest){
         console.log("used next base prompt")
     }
     
-    const chatResponse = await geminiChatResponse(userPrompt,basePrompt);
+    const chatResponse = await geminiChatResponse(userPrompt,reactBasePrompt);
     console.log("we got response");
     
     
